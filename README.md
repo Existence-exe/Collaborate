@@ -1,2 +1,3 @@
-# Discord-2.0
+# Collaborate
+
 This is a good one
