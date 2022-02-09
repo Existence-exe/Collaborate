@@ -6,50 +6,27 @@ var view = 'signup';
 var marginSignup = 5;
 var marginLogin = 5;
 
-var xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-        console.log(xhttp.responseText);
-    }
-}
-
-function CallApi() {
-    let url = 'http://127.0.0.1:5000/'
-    if (view == 'signup') {
-        let emails = document.getElementById('input-signup-email')
-        let usernames = document.getElementById('input-signup-username')
-        let pwords = document.getElementById('input-signup-password')
-        let mail = emails.value
-        let name = usernames.value
-        let pword = pwords.value
-        console.log(mail, name, pword)
-        url += (mail + '+' + name + '+' + pword)
-        xhttp.open('GET', url, true)
-        xhttp.send()
-    }
-}
-
-function switchSignup() {
+function switchSignup(){
     view = 'signup';
     signupBtn.style.borderBottom = '2.5px solid rgb(24, 126, 221)';
     loginBtn.style.borderWidth = '0px';
 }
 
-function switchLogin() {
+function switchLogin(){
     view = 'login';
     loginBtn.style.borderBottom = '2.5px solid rgb(24, 126, 221)';
     signupBtn.style.borderWidth = '0px';
 }
 
-setInterval(function () {
-    if (view == 'login') {
-        if (marginSignup != -105) {
+setInterval(function(){
+    if(view == 'login'){
+        if(marginSignup != -105){
             signup.style.marginLeft = marginSignup + '%';
             marginSignup -= 5;
             signup.style.marginRight = '105%';
         }
 
-        if (marginLogin != -100) {
+        if(marginLogin != -100){
             login.style.marginLeft = marginLogin + '%';
             marginLogin -= 5;
             login.style.marginRight = '105%';
@@ -57,15 +34,15 @@ setInterval(function () {
     }
 }, 1);
 
-setInterval(function () {
-    if (view == 'signup') {
-        if (marginSignup != 10) {
+setInterval(function(){
+    if(view == 'signup'){
+        if(marginSignup != 10){
             signup.style.marginLeft = marginSignup + '%';
             marginSignup += 5;
             signup.style.marginRight = '5%';
         }
 
-        if (marginLogin != 10) {
+        if(marginLogin != 10){
             login.style.marginLeft = marginLogin + '%';
             marginLogin += 5;
             login.style.marginRight = '5%';
@@ -76,7 +53,7 @@ setInterval(function () {
 const container = document.getElementById('container');
 const colors = ['#e6f5ff', '#99d6ff', '#33adff', '#008ae6', '#005c99', '#002e4d', '#4db5ff'];
 
-setInterval(function () {
+setInterval(function(){
     x = Math.floor(Math.random() * window.innerWidth);
     y = Math.floor(Math.random() * window.innerHeight);
     color = colors[Math.floor(Math.random() * 7)];
@@ -96,10 +73,10 @@ setInterval(function () {
     container.appendChild(elem);
 }, 200);
 
-setInterval(function () {
+setInterval(function(){
     circles = document.getElementsByClassName('circle');
 
-    for (let i = 0; i < circles.length; i++) {
+    for(let i = 0; i < circles.length; i++){
         elem = circles[i];
         elem.style.opacity = String(parseFloat(elem.style.opacity) - 0.05);
         elem.style.width = String(parseFloat(elem.style.width.slice(0, -2)) + 10.0) + 'px';
@@ -107,9 +84,45 @@ setInterval(function () {
         elem.style.marginLeft = String(parseFloat(elem.style.marginLeft.slice(0, -2)) - 5.0) + 'px';
         elem.style.marginTop = String(parseFloat(elem.style.marginTop.slice(0, -2)) - 5.0) + 'px';
 
-        if (parseFloat(elem.style.opacity) < 0.1) {
+        if(parseFloat(elem.style.opacity) < 0.1){
             elem.remove();
         }
     }
 }, 50);
 
+var http = new XMLHttpRequest();
+
+http.onreadstatechange = function(){
+    console.log(http.responseText);
+}
+
+http.onload = function(){
+    console.log(http.responseText);
+};
+
+signupUrl = 'http://localhost:5000/signup'
+loginUrl = 'http://localhost:5000/login'
+
+function signupF(){
+    data = JSON.stringify({
+        mail: 'email',
+        username: 'username',
+        password: 'password',
+        dob: '26-08-2006'
+    });
+
+    http.open('POST', signupUrl);
+    http.setRequestHeader('Content-type', 'application/json');
+    http.send(data);
+}
+
+function loginF(){
+    data = JSON.stringify({
+        handle: 'email',
+        password: 'password'
+    });
+
+    http.open('POST', loginUrl);
+    http.setRequestHeader('Content-type', 'application/json');
+    http.send(data);
+}
