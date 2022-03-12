@@ -118,7 +118,7 @@ function signupF(){
 
 function loginF(){
     data = JSON.stringify({
-        handle: 'email',
+        handle: 'username',
         password: 'password'
     });
 

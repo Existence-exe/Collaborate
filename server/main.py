@@ -15,8 +15,6 @@ def signup():
     if (content_type == 'application/json'):
         data = request.json
         mail = data['mail']
-        #ihash = blake2b(digest_size=20).encode('utf-8')
-        #ihash.update(mail)
         with open('./storage/creds.json', 'r') as f : 
             ex_cred = json.load(f)
         if mail in ex_cred :
@@ -36,30 +34,26 @@ def login():
     if (content_type == 'application/json'):
         data = request.json
         handle = data['handle']
-        if '.' in [a for a in handle] :
-            if handle.endswith('.com') : 
-                with open('./storage/creds.json', 'r') as f : 
-                    ex_cred = json.load(f)
-                    if handle in ex_cred : 
-                        print('a')
-                        pass
-                    else : 
-                        print('b')
-                        return "User doesn't exist!"  
-            else : 
-                print('a')
-                return "Invalid handle"
-            return "420: BAD PLAYER"
-        else : 
+        password = data['password']
+        if handle.endswith('.com') : 
             with open('./storage/creds.json', 'r') as f : 
-                    ex_cred = json.load(f)
-                    if handle == ex_cred['mail'] or handle == ex_cred['username'] : 
-                        print('d')
-                        pass
-                    else : 
-                        print('e')
-                        return "User doesn't exist!"
-        return data
+                ex_cred = json.load(f)
+                if handle in ex_cred and ex_cred[handle]['password'] == password :
+                    return "Login successful"
+                else:
+                    return "Invalid credentials"
+        else :
+            with open('./storage/creds.json', 'r') as f : 
+                ex_cred = json.load(f)
+                for item in ex_cred:
+                    if ex_cred[item]['username'] == handle and ex_cred[item]['password'] == password:
+                        return "Login successful"
+                    else:
+                        print(ex_cred[item])
+                        print(handle, password)
+                        return "Invalid credentials"
+                
+                return "User doesn't exist"
     else:
         return 'Content-Type not supported!'
 
